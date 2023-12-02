@@ -1,16 +1,19 @@
-help: 
+help:
 	@echo "Commands:"
 	@echo " - help: 	show this help"
 	@echo " - new:		create a new file for today"
 	@echo " - readme: 	build the new readme with links"
 
-setup: 
+setup:
 	@touch session.cookie
 	@mkdir -p inputs
 	@make help
 
-new: 
-	@python src/utils/new_file.py
+new:
+	@python3 src/utils/new_file.py
 
 readme:
-	@python src/utils/build_md.py
+	@python3 src/utils/build_md.py
+
+run:
+	@poetry run python src/${DAY}.py

@@ -1,5 +1,6 @@
-import requests
 from os.path import exists
+
+import requests
 
 
 def get_session_id(filename):
@@ -11,7 +12,7 @@ def get_url(year, day):
     return f"https://adventofcode.com/{year}/day/{day}/input"
 
 
-YEAR = 2022
+YEAR = 2023
 SESSION_ID_FILE = "session.cookie"
 SESSION = get_session_id(SESSION_ID_FILE)
 HEADERS = {
@@ -32,6 +33,18 @@ def get_input(day):
             )
         with open(path, "w") as f:
             f.write(response.text[:-1])
+
+    with open(path, "r") as f:
+        return f.read()
+
+
+def get_test_input(day):
+    path = f"inputs/{day:02d}.test"
+
+    if not exists(path):
+        raise RuntimeError(
+            f"Please create a test input file at {path} for day {day:02d}"
+        )
 
     with open(path, "r") as f:
         return f.read()

@@ -1,0 +1,16 @@
+from utils.api import get_input, get_test_input
+
+input_str = get_input(<DAY_NUM>)
+# input_str = get_test_input(<DAY_NUM>)
+
+
+def part_a():
+    pass
+
+
+def part_b():
+    pass
+
+
+print(part_a())
+print(part_b())
