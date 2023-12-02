@@ -1,4 +1,13 @@
 from utils.api import get_input, get_test_input
+from utils.common import (
+    Grid,
+    Point,
+    VectorDicts,
+    Vectors,
+    binary_search,
+    get_factors,
+    to_base_n,
+)
 
 input_str = get_input(<DAY_NUM>)
 # input_str = get_test_input(<DAY_NUM>)
