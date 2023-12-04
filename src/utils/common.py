@@ -133,7 +133,7 @@ class Grid:
         return self._height
 
     def all_points(self) -> list[Point]:
-        points = [Point(x, y) for x in range(self.width) for y in range(self.height)]
+        points = [Point(x, y) for y in range(self.height) for x in range(self.width)]
         return points
 
     def rows_as_str(self):
