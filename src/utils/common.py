@@ -8,10 +8,11 @@ from functools import cache
 #################################
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=False)
 class Point:
     x: int
     y: int
+    score: int = 0
 
     def __add__(self, other):
         return Point(self.x + other.x, self.y + other.y)
@@ -28,23 +29,26 @@ class Point:
     def __str__(self) -> str:
         return f"({self.x}, {self.y})"
 
-    def yield_neighbors(self, include_diagonals=False, include_self=False):
-        yield self + Point(1, 0)
-        yield self + Point(-1, 0)
-        yield self + Point(0, 1)
-        yield self + Point(0, -1)
+    def as_tuple(self):
+        return (self.x, self.y)
+
+    def yield_neighbors(self, include_diagonals=False, include_self=False, score=0):
+        yield self + Point(1, 0, score)
+        yield self + Point(-1, 0, score)
+        yield self + Point(0, 1, score)
+        yield self + Point(0, -1, score)
 
         if include_diagonals:
-            yield self + Point(1, 1)
-            yield self + Point(1, -1)
-            yield self + Point(-1, 1)
-            yield self + Point(-1, -1)
+            yield self + Point(1, 1, score)
+            yield self + Point(1, -1, score)
+            yield self + Point(-1, 1, score)
+            yield self + Point(-1, -1, score)
 
         if include_self:
             yield self
 
-    def neighbours(self, include_diagonals=False, include_self=False):
-        return list(self.yield_neighbors(include_diagonals, include_self))
+    def neighbours(self, include_diagonals=False, include_self=False, score=0):
+        return list(self.yield_neighbors(include_diagonals, include_self, score))
 
     def manhattan_distance(self, to: "Point"):
         return abs(self.x - to.x) + abs(self.y - to.y)
@@ -108,11 +112,21 @@ class Grid:
         self._width = len(self._array[0])
         self._height = len(self._array)
 
-    def value_at_point(self, point: Point) -> int:
+    def __hash__(self):
+        num = {".": "0", "#": "1", "O": "2"}
+        string = ""
+        for row in self._array:
+            for char in row:
+                if char in num:
+                    string += num[char]
+
+        return int(string, base=3)
+
+    def value_at_point(self, point: Point):
         """The value at this point"""
         return self._array[point.y][point.x]
 
-    def set_value_at_point(self, point: Point, value: int):
+    def set_value_at_point(self, point: Point, value: int | str):
         self._array[point.y][point.x] = value
 
     def valid_location(self, point: Point) -> bool:

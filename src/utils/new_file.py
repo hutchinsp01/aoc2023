@@ -15,4 +15,8 @@ path = f"src/{n:02d}.py"
 with open(path, "w") as f:
     f.write(DEFAULT_FILE)
 
+path = f"inputs/{n:02d}.test"
+with open(path, "w") as f:
+    f.write("")
+
 print(f"Enter your solution in {path}")
